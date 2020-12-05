@@ -4,20 +4,20 @@
 
 Here is a possible list of steps that can be taken to get started with the application. Consider writing tests throughout the project and consider using a version control system (e.g. a private repository on GitHub for the project). For specific requirements, refer to the (epic) checklist below.
 
-1. Create a folder structure for the project (following the one outlined in "Structuring Web Applications"). Add files 'app.js' and 'deps.js' to the project.
-2. Create a database for the project and add necessary files (configuration, database query functionality) to the project. Based on your interpretation of the requirements, create a database schema. Do not fixate on this schema, and assume that you might change it later on. Also, consider the possibility of feeding in data to the database from the command line / from an online browser for testing purposes.
-3. Add some middlewares to the project, at least an error reporting middleware.
-4. Add functionality for reporting (morning) behavior. When adding reports, use a fixed user id (e.g. 1).
-5. Add functionality for summarization of individual responses on a weekly level, now focusing on a single (last?) week. When building reports, use a fixed user id (e.g. 1).
-6. Create the landing page that shows the average mood from today and yesterday. Add a note on trend (i.e. going up / down).
-7. Add functionality for reporting (evening) behavior. When adding reports, use a fixed user id (e.g. 1).
-8. Adjust summarization of individual responses to include the reported evening behavior. Continue using a fixed user id (e.g. 1).
-9. Add monthly summarization functionality and implement the possibility to select a week and / or a month.
-10. Implement registration and authentication functionality. Change the fixed user id to that of the user in the session.
-11. Add styles using a library.
-12. Clean up and document.
-13. Implement APIs
-14. Continue working on missing content.
+- [x] Create a folder structure for the project (following the one outlined in "Structuring Web Applications"). Add files 'app.js' and 'deps.js' to the project.
+- [ ] Create a database for the project and add necessary files (configuration, database query functionality) to the project. Based on your interpretation of the requirements, create a database schema. Do not fixate on this schema, and assume that you might change it later on. Also, consider the possibility of feeding in data to the database from the command line / from an online browser for testing purposes.
+- [x] Add some middlewares to the project, at least an error reporting middleware.
+- [ ] Add functionality for reporting (morning) behavior. When adding reports, use a fixed user id (e.g. 1).
+- [ ] Add functionality for summarization of individual responses on a weekly level, now focusing on a single (last?) week. When building reports, use a fixed user id (e.g. 1).
+- [ ] Create the landing page that shows the average mood from today and yesterday. Add a note on trend (i.e. going up / down).
+- [ ] Add functionality for reporting (evening) behavior. When adding reports, use a fixed user id (e.g. 1).
+- [ ] Adjust summarization of individual responses to include the reported evening behavior. Continue using a fixed user id (e.g. 1).
+- [ ] Add monthly summarization functionality and implement the possibility to select a week and / or a month.
+- [ ] Implement registration and authentication functionality. Change the fixed user id to that of the user in the session.
+- [ ] Add styles using a library.
+- [ ] Clean up and document.
+- [ ] Implement APIs
+- [ ] Continue working on missing content.
 
 **Epic checklist**
 
@@ -25,61 +25,49 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
 
 - Application structure
 
-  - Application divided into logical folders (akin to the part on Structuring Web Applications)
-  - Dependencies exported from deps.js
-  - Project launched from app.js, which is in the root folder
-  - Configurations in a separate folder (e.g. config)
-    - Test configurations separate from production configurations
-    - Configurations loaded from environmental variables or e.g. dotenv -files
+  - [x] Application divided into logical folders (akin to the part on Structuring Web Applications)
+  - [x] Dependencies exported from deps.js
+  - [x] Project launched from app.js, which is in the root folder
+  - [ ] Configurations in a separate folder (e.g. config)
+    - [ ] Test configurations separate from production configurations
+    - [ ] Configurations loaded from environmental variables or e.g. dotenv -files
 
 - Users
 
-  - Email and password stored in the database for each user
+  - [ ] Email and password stored in the database for each user
 
-    - Password not stored in plaintext format
-    - Emails must be unique (same email cannot be stored twice in the database)
+    - [ ] Password not stored in plaintext format
+    - [ ] Emails must be unique (same email cannot be stored twice in the database)
 
-  - Users can register to the application
+  - [ ] Users can register to the application
 
-  - Registration form is accessible at
+  - [ ] Registration form is accessible at */auth/registration*
 
-     
+    - [ ] Registration uses labels to clarify the purpose of the input fields
+    - [ ] Registration form is validated on the server
+      - [ ] Email must be an authentic email
+      - [ ] Password must contain at least 4 characters
+      - [ ] Validation errors shown on page
+      - [ ] In case of validation errors, email field is populated (password is not)
 
-    ```text
-    /auth/registration
-    ```
-
-    - Registration uses labels to clarify the purpose of the input fields
-    - Registration form is validated on the server
-      - Email must be an authentic email
-      - Password must contain at least 4 characters
-      - Validation errors shown on page
-      - In case of validation errors, email field is populated (password is not)
-
-  - User-specific functionality is structured into logical parts (e.g. userController.js, userService.js)
+  - [ ] User-specific functionality is structured into logical parts (e.g. userController.js, userService.js)
 
 - Authentication
 
-  - Application uses session-based authentication
+  - [ ] Application uses session-based authentication
 
-  - Login form is accessible at
+  - [ ] Login form is accessible at */auth/login*
 
-     
-
-    ```text
-    /auth/login
-    ```
-
-    - Login form asks for email and password
-    - Login uses labels to clarify the purpose of the input fields
-    - Login form has a link to the registration form
-    - If the user types in an invalid email or password, a message "Invalid email or password" is shown on the login page.
+    - [ ] Login form asks for email and password
+  - [ ] Login uses labels to clarify the purpose of the input fields
+    - [ ] Login form has a link to the registration form
+    - [ ] If the user types in an invalid email or password, a message "Invalid email or password" is shown on the login page.
       - Form fields are not populated
 
-  - Authentication functionality is structured into logical parts (e.g. authController.js or part of userController.js, ...).
-
-  - Application has a logout button that allows the user to logout (logging out effectively means clearing the session)
-
+  - [ ] Authentication functionality is structured into logical parts (e.g. authController.js or part of userController.js, ...).
+  
+  - [ ] Application has a logout button that allows the user to logout (logging out effectively means clearing the session)
+  
     - Logout functionality is at `/auth/logout`
 
 - Middleware

@@ -28,4 +28,16 @@ const serveStaticFilesMiddleware = async(context, next) => {
   }
 }
 
-export { errorMiddleware, requestTimingMiddleware, serveStaticFilesMiddleware };
+const limitAccessMiddleware = async(context, next) => {
+    if (context.request.url.pathname.startsWith('/accounts')) {
+      if (await context.session.get('authenticated')) {
+        await next();
+      } else {
+        context.response.status = 401;
+      }
+    } else {
+      await next();
+    }
+  }
+
+export { limitAccessMiddleware, errorMiddleware, requestTimingMiddleware, serveStaticFilesMiddleware };
