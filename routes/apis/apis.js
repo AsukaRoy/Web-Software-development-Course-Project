@@ -6,13 +6,9 @@ const getNewsList = async({response}) => {
     response.body = await newsService.getNewsList();
 };
 
-const getNewsItem = async({params, response}) => {
+const showWeeklyReport = async({params, response}) => {
     response.body = await newsService.getNewsItem(params.id);
 };
-
-const showMorningReport = ({render}) => {
-    render('morning.ejs');
-}
 
 const addMorningReport = async({request, response, session}) => {
     const body = request.body();
@@ -23,6 +19,7 @@ const addMorningReport = async({request, response, session}) => {
     const moodMorning = params.get('moodMorning');
     const date = await params.get('date');
     const user = await session.get('user');
+
     await reportService.addMorningReport(sleepDuration,sleepQuality,moodMorning,date,user);
     response.status = 200;
 };
@@ -90,6 +87,10 @@ const showRegistrationForm = ({render}) => {
 
 const showLoginForm = ({render}) => {
     render('login.ejs');
+}
+
+const showMorningReport = ({render}) => {
+    render('morning.ejs');
 }
   
 export { showLoginForm, showRegistrationForm, postRegistrationForm, postLoginForm, addMorningReport, showMorningReport};

@@ -8,14 +8,7 @@ const getNewsList = async() => {
     return res.rowsOfObjects();
 }
 
-const getNewsItem = async(id) => {
-    const res = await executeQuery("SELECT * FROM news WHERE id = $1", id);
-    if (!res) {
-        return {};
-    }
 
-    return res.rowsOfObjects()[0];
-}
 
 const deleteNewsItem = async(id) => {
     await executeQuery("DELETE FROM news WHERE id = $1", id);
@@ -23,6 +16,15 @@ const deleteNewsItem = async(id) => {
 
 const addNewsItem = async(title, content) => {
     await executeQuery("INSERT INTO news (title, content) VALUES ($1, $2)", title, content);
+}
+
+const getWeeklyMorningReport = async(id) => {
+    const res = await executeQuery("SELECT * FROM news WHERE id = $1", id);
+    if (!res) {
+        return {};
+    }
+
+    return res.rowsOfObjects()[0];
 }
 
 const addMorningReport = async(sleepDuration,sleepQuality,moodMorning,date, user) => {
