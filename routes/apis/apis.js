@@ -6,8 +6,45 @@ const getNewsList = async({response}) => {
     response.body = await newsService.getNewsList();
 };
 
-const showWeeklyReport = async({params, response}) => {
-    response.body = await newsService.getNewsItem(params.id);
+
+const addEveningReport = async({request, response, session}) => {
+    const body = request.body();
+    const params = await body.value;
+    
+    const sports = params.get('sports');
+    const study = await params.get('study');
+    const eating = params.get('eating');
+    const moodEvening = await params.get('moodEvening');
+    const date = await params.get('date');
+    const user = await session.get('user');
+
+    await reportService.addEveningReport(sports,study,eating,moodEvening,date,user);
+
+    response.status = 200;
+};
+
+const getWeeklyMorningReport = async({request, response,session}) => {
+    const body = request.body();
+    const params = await body.value;
+
+    //const date = await params.get('date');
+    const user = await session.get('user');
+    console.log("Reports");
+    console.log(user);
+    const objects = await reportService.getWeeklyMorningReport(user);
+    console.log(objects);
+    
+    let result = {
+        Aver_sleepduration:0.0,
+        Aver_sleepquality:0.0,
+        Aver_moodmorning:0.0
+    }
+
+    objects.forEach((object) => {
+        result.Aver_sleepquality += parseFloat(object.sleepquality);
+    });
+    result.Aver_sleepquality /= objects.length;
+    response.status = 200;
 };
 
 const addMorningReport = async({request, response, session}) => {
@@ -92,5 +129,9 @@ const showLoginForm = ({render}) => {
 const showMorningReport = ({render}) => {
     render('morning.ejs');
 }
+
+const showEveningReport = ({render}) => {
+    render('evening.ejs');
+}
   
-export { showLoginForm, showRegistrationForm, postRegistrationForm, postLoginForm, addMorningReport, showMorningReport};
+export { showLoginForm, showRegistrationForm, postRegistrationForm, postLoginForm, addMorningReport, showMorningReport, getWeeklyMorningReport,addEveningReport, showEveningReport};

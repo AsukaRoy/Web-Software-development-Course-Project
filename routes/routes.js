@@ -13,4 +13,8 @@ router.post('/auth/login', api.postLoginForm);
 router.get('/morningReport', api.showMorningReport);
 router.post('/morningReport', api.addMorningReport);
 
+router.get('/eveningReport', api.showEveningReport);
+router.post('/eveningReport', api.addEveningReport);
+
+router.get('/WeeklymorningReport', api.getWeeklyMorningReport);
 export { router };
