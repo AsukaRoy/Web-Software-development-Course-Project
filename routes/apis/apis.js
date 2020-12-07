@@ -1,10 +1,6 @@
-import * as newsService from "../../services/newsServices.js";
 import * as reportService from "../../services/reportServices.js";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 
-const getNewsList = async({response}) => {
-    response.body = await newsService.getNewsList();
-};
 
 
 const addEveningReport = async({request, response, session}) => {

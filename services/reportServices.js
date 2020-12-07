@@ -27,6 +27,15 @@ const getWeeklyMorningReport = async(user) => {
     return res.rowsOfObjects();
 }
 
+const getWeeklyEveningReport = async(user) => {
+    console.log(user);
+    const res = await executeQuery("SELECT * FROM eveningReports WHERE user_id = $1 AND date >= CURRENT_DATE - 7" , user.id);
+    if (!res) {
+        return {};
+    }
+    return res.rowsOfObjects();
+}
+
 const addMorningReport = async(sleepDuration,sleepQuality,moodMorning,date, user) => {
     await executeQuery("INSERT INTO morningReports (sleepDuration,sleepQuality,moodMorning,date, user_id) VALUES ($1, $2, $3, $4, $5)", sleepDuration,sleepQuality,moodMorning, date, user.id);
 }
@@ -53,4 +62,4 @@ const addUser = async(email, hash) => {
     return res.rowsOfObjects()[0];
 }
 
-export { getUser, addUser, addMorningReport, getWeeklyMorningReport, addEveningReport};
+export { getUser, addUser, addMorningReport, getWeeklyMorningReport, addEveningReport, getWeeklyEveningReport};
