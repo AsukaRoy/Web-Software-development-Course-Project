@@ -57,31 +57,53 @@ const addMorningReport = async({request, response, session}) => {
     response.status = 200;
 };
 
-const postLoginForm = async({request, response, session}) => {
+const postLoginForm = async({request, response, session,render}) => {
     const body = request.body();
     const params = await body.value;
+    
+    const errors = [];
+
+    let email = params.has('email') ? params.get('email'): '';
+    let password = params.has('password') ? params.get('password'): '';
   
-    const email = params.get('email');
-    const password = params.get('password');
-  
+    if (!params.has('email') || params.get('email').length < 4) {
+        errors.push('Invalid email');
+    } 
+    
+    if (!params.has('password') || params.get('password').length < 4) {
+        errors.push('Invalid password');
+    }
+
     // check if the email exists in the database
     const res = await reportService.getUser(email);
-    
-    if (res === {}) {
-        response.status = 401;
+    console.log(res);
+    console.log(res === {});
+    if (Object.keys(res).length === 0) {
+        errors.push('Invalid email');
+        console.log("Invalid email");
+        render('login.ejs', { errors: errors, email: "", password: '' });
         return;
+
     }
   
     // take the first row from the results
     const userObj = res;
     const hash = userObj.password;
     const passwordCorrect = await bcrypt.compare(password, hash);
+    console.log("Finish compare");
     if (!passwordCorrect) {
-        response.status = 401;
+        errors.push('Invalid password');
+        console.log("Invalid password");
+        render('login.ejs', { errors: errors, email: "", password: "" });
         return;
     }
+    console.log("errors");
+    if (errors.length === 0) {
+        email = '';
+        password = '';
+    }
 
-    console.log("authenticated");
+    ;
     await session.set('authenticated', true);
     await session.set('user', {
         id: userObj.id,
@@ -90,22 +112,40 @@ const postLoginForm = async({request, response, session}) => {
     response.body = 'Authentication successful!';
 }
 
-const postRegistrationForm = async({request, response}) => {
+const postRegistrationForm = async({request, response, render}) => {
     const body = request.body();
     const params = await body.value;
-    
-    const email = params.get('email');
-    const password = params.get('password');
-    const verification = params.get('verification');
   
+    const errors = [];
+
+    let email = params.has('email') ? params.get('email'): '';
+    let password = params.has('password') ? params.get('password'): '';
+    let verification = params.has('verification') ? params.get('verification'): '';
+
+    if (!params.has('email') || params.get('email').length < 4) {
+        errors.push('Invalid email');
+    } 
+    
+    if (!params.has('password') || params.get('password').length < 4) {
+        errors.push('Invalid password');
+    }
+
+    if (!params.has('verification') || params.get('verification').length < 4) {
+        errors.push('Invalid second password');
+    }
+
+    console.log("compare");
     if (password !== verification) {
-      response.body = 'The entered passwords did not match';
+      errors.push('Invalid second password');
+      console.log("Invalid second password");
+      render('register.ejs', { errors: errors, email: email, password: "",verification:""  });
       return;
     }
   
     const existingUsers = await reportService.getUser(email);
     if (existingUsers.rowCount > 0) {
-      response.body = 'The email is already reserved.';
+      errors.push('The email is already reserved.');
+      render('register.ejs', { errors: errors, email: email, password: "",verification:""  });
       return;
     }
   
@@ -115,11 +155,11 @@ const postRegistrationForm = async({request, response}) => {
 };
 
 const showRegistrationForm = ({render}) => {
-    render('register.ejs');
+    render('register.ejs', { errors: [], email: '', password: '', verification:""   });
 }
 
 const showLoginForm = ({render}) => {
-    render('login.ejs');
+    render('login.ejs', { errors: [], email: '', password: ''});
 }
 
 const showMorningReport = ({render}) => {

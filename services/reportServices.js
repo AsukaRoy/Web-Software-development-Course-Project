@@ -45,8 +45,12 @@ const addEveningReport = async(sports,study,eating,moodEvening,date,user) => {
 }
 
 const getUser = async(email) => {
+    console.log(email);
     const res =  await executeQuery("SELECT * FROM users WHERE email = $1;", email);
-    if (!res) {
+    console.log(res.rowCount);
+    console.log(res.rows.length);
+    if (res.rowCount === 0) {
+        console.log('return {}');
         return {};
     }
 

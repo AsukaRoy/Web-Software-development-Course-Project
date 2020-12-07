@@ -1,13 +1,24 @@
+<%- include('./partials/header.ejs') %>
 <h1>Register!</h1>
 <form method="POST" action="/auth/register">
     <label for="email">email: </label>
-    <input type="email" name="email" />
+    <input type="email" name="email" value="<%= email %>"/>
 
     <label for="password">password: </label>
-    <input type="password" name="password" />
+    <input type="password" name="password" value="<%= password %>"/>
 
     <label for="verification">password again: </label>
-    <input type="password" name="verification" />
+    <input type="password" name="verification" value="<%= verification %>"/>
 
     <input type="submit" value="Submit!" />
 </form>
+
+<% if (errors && errors.length > 0) { %>
+    <ul>
+        <% errors.forEach((error) => { %>
+            <li><%= error %></li>
+        <% }); %>
+    </ul>
+    <% } %>
+
+<%- include('./partials/footer.ejs') %>
