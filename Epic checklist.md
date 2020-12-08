@@ -29,7 +29,7 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
   - [x] Dependencies exported from deps.js
   - [x] Project launched from app.js, which is in the root folder
   - [x] Configurations in a separate folder (e.g. config)
-    - [ ] Test configurations separate from production configurations
+    - [x] Test configurations separate from production configurations
     - [ ] Configurations loaded from environmental variables or e.g. dotenv -files
 
 - [ ] Users
@@ -70,67 +70,67 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
 
     - [ ] Logout functionality is at `/auth/logout`
 
-- [ ] Middleware
+- [x] Middleware
 
   - [x] The application has middleware that logs all the errors that occurred within the application
   - [x] The application has middleware that logs all requests made to the application
     - [x] Logged information contains current time, request method, requested path, and user id (or anonymous if not authenticated)
-  - [ ] The application has middleware that controls access to the application
-    - [ ] Landing page at `/` is accessible to all
-    - [ ] Paths starting with `/auth` are accessible to all
-    - [ ] Other paths require that the user is authenticated
-      - [ ] Non-authenticated users are redirected to the login form at `/auth/login`
+  - [x] The application has middleware that controls access to the application
+    - [x] Landing page at `/` is accessible to all
+    - [x] Paths starting with `/auth` are accessible to all
+    - [x] Other paths require that the user is authenticated
+      - [x] Non-authenticated users are redirected to the login form at `/auth/login`
   - [x] Application has middleware that controls access to static files
     - [x] Static files are placed under `/static`
   - [x] Middleware functionality is structured into logical parts (e.g. separate middlewares folder).
 
 - [ ] Reporting
 
-  - [ ] Reporting functionality is available under the path `/behavior/reporting`
+  - [x] Reporting functionality is available under the path `/behavior/reporting`
   - [x] Reporting cannot be done if the user is not authenticated
-  - [ ] When accessing `/behavior/reporting`, user can choose whether morning or evening is being reported
-    - [ ] User reporting form depends on selection
-    - [ ] Page at `/behavior/reporting` shows whether morning and/or evening reporting for today has already been done
+  - [x] When accessing `/behavior/reporting`, user can choose whether morning or evening is being reported
+    - [x] User reporting form depends on selection
+    - [x] Page at `/behavior/reporting` shows whether morning and/or evening reporting for today has already been done
   - [ ] Morning reporting form contains fields for date, sleep duration, sleep quality, and generic mood
-    - [x] Date is populated by default to today, but can be changed
+    - [ ] Date is populated by default to today, but can be changed
       - [x] Form has a date field for selecting the date
     - [x] Sleep duration is reported in hours (with decimals)
-    - [ ] Sleep quality and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.
-      - [ ] Form has a slider (e.g. range) or radio buttons for reporting the value
+    - [x] Sleep quality and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.
+      - [x] Form has a slider (e.g. range) or radio buttons for reporting the value
     - [x] Form contains labels that clarify the purpose of the input fields and the accepted values
-    - [ ] Form fields are validated
-      - [ ] Sleep duration must be entered, must be a number (can be decimal), and cannot be negative
-      - [ ] Sleep quality and generic mood must be reported using numbers between 1 and 5 (integers).
-      - [ ] In case of validation errors, form fields are populated
-  - [ ] Evening reporting form contains fields for date, time spent on sports and exercise, time spent studying, regularity and quality of eating, and generic mood
-    - [x] Date is populated by default to today, but can be changed
+    - [x] Form fields are validated
+      - [x] Sleep duration must be entered, must be a number (can be decimal), and cannot be negative
+      - [x] Sleep quality and generic mood must be reported using numbers between 1 and 5 (integers).
+      - [x] In case of validation errors, form fields are populated
+  - [x] Evening reporting form contains fields for date, time spent on sports and exercise, time spent studying, regularity and quality of eating, and generic mood
+    - [ ] Date is populated by default to today, but can be changed
       - [x] Form has a date field for selecting the date
     - [x] Time spent on sports and exercise and time spent studying are reported in hours (with decimals)
-    - [ ] Regularity and quality of eating and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.
-      - [ ] Form has a slider (e.g. range) or radio buttons for reporting the value
-    - [ ] Form contains labels that clarify the purpose of the input fields and the accepted values
+    - [x] Regularity and quality of eating and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.
+      - [x] Form has a slider (e.g. range) or radio buttons for reporting the value
+    - [x] Form contains labels that clarify the purpose of the input fields and the accepted values
     - [ ] Form fields are validated
       - [ ] Time spent on sports and exercise and time spent studying are reported in hours must be entered, must be a number (can be decimal), and cannot be negative
       - [ ] Regularity and quality of eating and generic mood must be reported using numbers between 1 and 5 (integers).
       - [ ] In case of validation errors, form fields are populated
-  - [ ] - [x] Reported values are stored into the database
+  - [x] - [x] Reported values are stored into the database
 
     - [x] The database schema used for reporting works for the task
     - [x] Reporting is user-specific (all reported values are stored under the currently authenticated user)
-    - [ ] If the same report is already given (e.g. morning report for a specific day), then the older report is removed
-      - [ ] If the functionality for handling duplicate reports is something else, the functionality is described in documentation
+    - [x] If the same report is already given (e.g. morning report for a specific day), then the older report is removed
+      - [x] If the functionality for handling duplicate reports is something else, the functionality is described in documentation
   - [ ] Reporting functionality structured into logical parts (separate views folder, separate controller for reporting, service(s), ...)
 
 - [ ] Summarization
 
-  - [ ] Summary functionality is available under the path `/behavior/summary`
+  - [x] Summary functionality is available under the path `/behavior/summary`
   - [ ] Main summary page contains the following statistics, by default shown for the last week and month
-    - [ ] Weekly average (by default from last week)
-      - [ ] Average sleep duration
-      - [ ] Average time spent on sports and exercise
-      - [ ] Average time spent studying
-      - [ ] Average sleep quality
-      - [ ] Average generic mood
+    - [x] Weekly average (by default from last week)
+      - [x] Average sleep duration
+      - [x] Average time spent on sports and exercise
+      - [x] Average time spent studying
+      - [x] Average sleep quality
+      - [x] Average generic mood
     - [ ] Monthly average (by default from last month)
       - [ ] Average sleep duration
       - [ ] Average time spent on sports and exercise
@@ -142,14 +142,14 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
     - [ ] When the month is changed, the monthly average will be shown for the given month.
     - [ ] If no data for the given week exists, the weekly summary shows text suggesting that no data for the given week exists.
     - [ ] If no data for the given month exists, the monthly summary shows text suggesting that no data for the given month exists.
-  - [ ] Summary data / averages calculated within the database
-    - [ ] When doing weekly reporting, the weekly averages are calculated in the database
+  - [x] Summary data / averages calculated within the database
+    - [x] When doing weekly reporting, the weekly averages are calculated in the database
     - [ ] When doing monthly reporting, the monthly averages are calculated in the database
   - [ ] Summarization page contains statistics only for the current user.
 
 - [x] Landing page (i.e. page at the root path of the application)
 
-  - [ ] Landing page briefly describes the purpose of the application
+  - [x] Landing page briefly describes the purpose of the application
   - [ ] Landing page shows a glimpse at the data and indicates a trend
     - [ ] Landing page shows users' average mood for today and and yesterday
     - [ ] If the average mood yesterday was better than today, tells that things are looking gloomy today
@@ -175,10 +175,10 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
 
 - [ ] Database
 
-  - [ ] Expensive calculations such as calculating averages are done in the database
+  - [x] Expensive calculations such as calculating averages are done in the database
   - [ ] Indices are used when joining tables if the queries are such that they are used often
   - [ ] Database uses a connection pool
-  - [ ] Database credentials are not included in the code
+  - [x] Database credentials are not included in the code
 
 - [ ] User interface / views
 

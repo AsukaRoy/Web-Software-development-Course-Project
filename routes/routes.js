@@ -18,6 +18,9 @@ router.post('/morningReport', api.addMorningReport);
 router.get('/eveningReport', api.showEveningReport);
 router.post('/eveningReport', api.addEveningReport);
 
-router.get('/weeklyMorningReport', api.getWeeklyMorningReport);
+router.get('/behavior/summary', api.getSummarization);
+router.post('/behavior/summary', api.postSummarization);
+
+router.get('/weeklyMorningReport', api.getSummarization);
 
 export { router };

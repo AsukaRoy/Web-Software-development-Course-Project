@@ -2,16 +2,16 @@
 <h1>Mornging Report!</h1>
 
 <form method="POST" action="/morningReport">
-    <label for="sleepDuration">Sleep Duration: </label>
-    <input type="number" name="sleepDuration" min="0" max="24" />
+    <label for="sleepDuration">Sleep Duration (range from 0 to 24): </label>
+    <input type="number" name="sleepDuration" min="0" max="24" value="<%= sleepDuration %>"/>
 
-    <label for="sleepQuality">Sleep Quality: </label>
-    <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="5"  oninput="amountSleepQuality.value=sleepQuality.value" value="0"/>
+    <label for="sleepQuality">Sleep Quality (range from 0 to 5): </label>
+    <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="5"  oninput="amountSleepQuality.value=sleepQuality.value" value="<%= sleepQuality %>" />
     <output id="amountSleepQuality" name="amountSleepQuality" for="rangeInput">0</output>
 
 
-    <label for="moodMorning">Generic mood: </label>
-    <input type="range" id="moodMorning" name="moodMorning" min="1" max="5" oninput="amountMoodMorning.value=moodMorning.value" value="0"/>
+    <label for="moodMorning">Generic mood (range from 0 to 5): </label>
+    <input type="range" id="moodMorning" name="moodMorning" min="1" max="5" oninput="amountMoodMorning.value=moodMorning.value" value="<%= moodMorning %>"/>
     <output id="amountMoodMorning" name="amountMoodMorning" for="rangeInput">0</output>
 
     <label for="date">Date: </label>

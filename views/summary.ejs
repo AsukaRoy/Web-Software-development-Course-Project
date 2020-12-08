@@ -1,0 +1,27 @@
+<%- include('./partials/header.ejs') %>
+<h1>
+    Choose which week and month statistics you want. 
+</h1>
+
+<form method="POST" action="/behavior/summary">
+    <input type="text" name="nameWeek" value="week"/>
+
+    <label for="weekNumber">Week Number: </label>
+    <input type="week" name="weekNumber" value="<%= weekNumber %>"/>
+    <input type="submit" value="submit!" />
+</form>
+
+
+<h2>Weekly average (by default from last week)</h1>
+    <ul>
+        <li>Average sleep duration: <%= sleepDuration %></li>
+        <li>Average time spent on sports and exercise: <%= sports %></li>
+        <li>Average time spent studying: <%= study %></li>
+        <li>Average sleep quality: <%= sleepQuality %></li>
+        <li>Average generic mood: <%= mood %></li>
+    </ul>
+
+
+
+
+<%- include('./partials/footer.ejs') %>

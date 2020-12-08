@@ -17,6 +17,7 @@ const getWeeklyMorningReport = async({request, response,session}) => {
         result.Aver_sleepquality += parseFloat(object.sleepquality);
     });
     result.Aver_sleepquality /= objects.length;
+    console.log(result.Aver_sleepquality);
     response.status = 200;
 };
 
@@ -37,18 +38,40 @@ const addEveningReport = async({request, response, session}) => {
 };
 
 
-const addMorningReport = async({request, response, session}) => {
+const addMorningReport = async({request, response, session, render}) => {
     const body = request.body();
     const params = await body.value;
     
-    const sleepDuration = params.get('sleepDuration');
-    const sleepQuality = await params.get('sleepQuality');
-    const moodMorning = params.get('moodMorning');
+    const errors = [];
+
+    let sleepDuration = await params.has('sleepDuration') ? params.get('sleepDuration'): '';
+    let sleepQuality = await params.has('sleepQuality') ? params.get('sleepQuality'): '';
+    let moodMorning = await params.has('moodMorning') ? params.get('moodMorning'): '';
     const date = await params.get('date');
     const user = await session.get('user');
 
-    await reportService.addMorningReport(sleepDuration,sleepQuality,moodMorning,date,user);
-    response.status = 200;
+
+    if (!params.has('sleepDuration') || Number(params.get('sleepDuration')) < 0 ) {
+        errors.push('Invalid Sleep Duration');
+    } 
+    
+    if (!params.has('sleepQuality') || Number(params.get('sleepQuality')) < 1
+    || Number(params.get('sleepQuality')) > 10 )  {
+        errors.push('Invalid Sleep Quality');
+    }
+
+    if (!params.has('moodMorning') || Number(params.get('moodMorning')) < 1
+    || Number(params.get('moodMorning')) > 10 )  {
+        errors.push('Invalid morning mood value');
+    }
+
+    if (errors.length === 0) {
+        await reportService.addMorningReport(sleepDuration,sleepQuality,moodMorning, date, user);
+        response.status = 200;
+    } else{
+        render('morning.ejs', { errors: errors, sleepDuration: sleepDuration, sleepQuality: sleepQuality, moodMorning: moodMorning});
+        return;
+    }
 };
 
 const postLoginForm = async({request, response, session,render}) => {
@@ -70,28 +93,24 @@ const postLoginForm = async({request, response, session,render}) => {
 
     // check if the email exists in the database
     const res = await reportService.getUser(email);
-    console.log(res);
-    console.log(res === {});
+
     if (Object.keys(res).length === 0) {
         errors.push('Invalid email');
-        console.log("Invalid email");
         render('login.ejs', { errors: errors, email: "", password: '' });
         return;
-
     }
   
     // take the first row from the results
     const userObj = res;
     const hash = userObj.password;
     const passwordCorrect = await bcrypt.compare(password, hash);
-    console.log("Finish compare");
+
     if (!passwordCorrect) {
         errors.push('Invalid password');
-        console.log("Invalid password");
         render('login.ejs', { errors: errors, email: "", password: "" });
         return;
     }
-    console.log("errors");
+
     if (errors.length === 0) {
         email = '';
         password = '';
@@ -157,7 +176,7 @@ const showLoginForm = ({render}) => {
 }
 
 const showMorningReport = ({render}) => {
-    render('morning.ejs');
+    render('morning.ejs', { errors: [], sleepDuration: '', sleepQuality: 0,moodMorning:0});
 }
 
 const showEveningReport = ({render}) => {
@@ -184,4 +203,45 @@ const behaviorReporting = async({render, session}) => {
     render('reporting.ejs', { info: info});
 }
   
-export { showLoginForm, showRegistrationForm, postRegistrationForm, postLoginForm, addMorningReport, showMorningReport, getWeeklyMorningReport,addEveningReport, showEveningReport, behaviorReporting};
+const getSummarization = async({render, session}) => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    
+    today = yyyy + '-' + mm + '-' + dd;
+
+    const user = await session.get('user');
+
+    const objectsMorning = await reportService.getWeeklyMorningReport(user,yyyy ,mm,dd);
+    console.log(objectsMorning);
+ 
+    let Aver_sleepduration = objectsMorning[0];
+    let Aver_sleepquality = objectsMorning[1];
+    let Aver_moodmorning = objectsMorning[2];
+    
+
+    const objectsEvening = await reportService.getWeeklyEveningReport(user,yyyy ,mm,dd);
+    console.log(objectsEvening);
+
+    let Aver_sports = objectsEvening[0];
+    let Aver_study = objectsEvening[1];
+    let Aver_eating = objectsEvening[2];
+    let Aver_evening = objectsEvening[2];
+
+    let Aver_mood = (Number(Aver_evening) + Number(Aver_moodmorning)) / 2;
+    if(objectsMorning.length != 0 && objectsMorning.length != 0)
+    {
+        render('summary.ejs', { weekNumber: 1, sleepDuration: Aver_sleepduration, sports:Aver_sports, study:Aver_study, sleepQuality: Aver_sleepquality,mood:Aver_mood});
+    }
+    else
+    {
+        console.log("don't exist evening data");
+    }
+}
+  
+const postSummarization = async({render, session}) => {
+
+}
+
+export { showLoginForm, showRegistrationForm, postRegistrationForm, postLoginForm, addMorningReport, showMorningReport, getWeeklyMorningReport,addEveningReport, showEveningReport, behaviorReporting,getSummarization,postSummarization};
