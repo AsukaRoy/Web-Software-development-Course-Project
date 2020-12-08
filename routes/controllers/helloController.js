@@ -1,5 +1,5 @@
-const hello = async({response}) => {
-    response.body = 'Hello world!';
-  };
+const hello = async({render}) => {
+    render('index.ejs');
+};
    
-  export { hello };
+export { hello };

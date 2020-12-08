@@ -29,14 +29,17 @@ const serveStaticFilesMiddleware = async(context, next) => {
 }
 
 const limitAccessMiddleware = async(context, next) => {
-    if (context.request.url.pathname.startsWith('/accounts')) {
+    if (context.request.url.pathname.startsWith('/auth')){
+      await next();
+    } else if(context.request.url.pathname === "/"){
+      await next();
+    }
+    else{
       if (await context.session.get('authenticated')) {
         await next();
       } else {
-        context.response.status = 401;
+        context.response.redirect('/auth/login');
       }
-    } else {
-      await next();
     }
   }
 
