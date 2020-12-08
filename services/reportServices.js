@@ -1,27 +1,26 @@
 import { executeQuery } from "../database/database.js";
 
-const getNewsList = async() => {
-    const res = await executeQuery("SELECT * FROM news");
-    if (!res) {
-        return [];
+
+const getTodayMorningReport = async(user) => {
+    const res = await executeQuery("SELECT * FROM morningReports WHERE user_id = $1 AND date = CURRENT_DATE" , user.id);
+    if (res.rowCount === 0) {
+        return {};
     }
     return res.rowsOfObjects();
 }
 
-
-
-const deleteNewsItem = async(id) => {
-    await executeQuery("DELETE FROM news WHERE id = $1", id);
-}
-
-const addNewsItem = async(title, content) => {
-    await executeQuery("INSERT INTO news (title, content) VALUES ($1, $2)", title, content);
+const getTodayEveningReport = async(user) => {
+    const res = await executeQuery("SELECT * FROM eveningReports WHERE user_id = $1 AND date = CURRENT_DATE" , user.id);
+    if (res.rowCount === 0) {
+        return {};
+    }
+    return res.rowsOfObjects();
 }
 
 const getWeeklyMorningReport = async(user) => {
     console.log(user);
     const res = await executeQuery("SELECT * FROM morningReports WHERE user_id = $1 AND date >= CURRENT_DATE - 7" , user.id);
-    if (!res) {
+    if (res.rowCount === 0) {
         return {};
     }
     return res.rowsOfObjects();
@@ -30,7 +29,7 @@ const getWeeklyMorningReport = async(user) => {
 const getWeeklyEveningReport = async(user) => {
     console.log(user);
     const res = await executeQuery("SELECT * FROM eveningReports WHERE user_id = $1 AND date >= CURRENT_DATE - 7" , user.id);
-    if (!res) {
+    if (res.rowCount === 0) {
         return {};
     }
     return res.rowsOfObjects();
@@ -59,11 +58,11 @@ const getUser = async(email) => {
 
 const addUser = async(email, hash) => {
     const res =  await executeQuery("INSERT INTO users (email, password) VALUES ($1, $2);", email, hash);
-    if (!res) {
+    if (res.rowCount === 0) {
         return {};
     }
 
     return res.rowsOfObjects()[0];
 }
 
-export { getUser, addUser, addMorningReport, getWeeklyMorningReport, addEveningReport, getWeeklyEveningReport};
+export { getUser, addUser, addMorningReport, getWeeklyMorningReport, addEveningReport, getWeeklyEveningReport, getTodayMorningReport, getTodayEveningReport};

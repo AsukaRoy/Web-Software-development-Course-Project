@@ -10,11 +10,14 @@ router.post('/auth/register', api.postRegistrationForm);
 router.get('/auth/login', api.showLoginForm);
 router.post('/auth/login', api.postLoginForm);
 
+router.get("/behavior/reporting", api.behaviorReporting);
+
 router.get('/morningReport', api.showMorningReport);
 router.post('/morningReport', api.addMorningReport);
 
 router.get('/eveningReport', api.showEveningReport);
 router.post('/eveningReport', api.addEveningReport);
 
-router.get('/WeeklymorningReport', api.getWeeklyMorningReport);
+router.get('/weeklyMorningReport', api.getWeeklyMorningReport);
+
 export { router };

@@ -1,0 +1,19 @@
+<%- include('./partials/header.ejs') %>
+
+<h1> Reporting</h1>
+
+<% if (info && info.length > 0) { %>
+    <ul>
+        <% info.forEach((i) => { %>
+            <li><%= i %></li>
+        <% }); %>
+    </ul>
+    <% } %>
+
+<div>
+<a href="/morningReport">Click here to report morning behavior</a>
+</div>
+<div>
+<a href="/eveningReport">Click here to report evening behavior</a>
+<div>
+<%- include('./partials/footer.ejs') %>

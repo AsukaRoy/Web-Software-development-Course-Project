@@ -1,7 +1,24 @@
 import * as reportService from "../../services/reportServices.js";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 
+const getWeeklyMorningReport = async({request, response,session}) => {
+    //const date = await params.get('date');
+    const user = await session.get('user');
 
+    const objects = await reportService.getWeeklyMorningReport(user);
+    
+    let result = {
+        Aver_sleepduration:0.0,
+        Aver_sleepquality:0.0,
+        Aver_moodmorning:0.0
+    }
+
+    objects.forEach((object) => {
+        result.Aver_sleepquality += parseFloat(object.sleepquality);
+    });
+    result.Aver_sleepquality /= objects.length;
+    response.status = 200;
+};
 
 const addEveningReport = async({request, response, session}) => {
     const body = request.body();
@@ -19,29 +36,6 @@ const addEveningReport = async({request, response, session}) => {
     response.status = 200;
 };
 
-const getWeeklyMorningReport = async({request, response,session}) => {
-    const body = request.body();
-    const params = await body.value;
-
-    //const date = await params.get('date');
-    const user = await session.get('user');
-    console.log("Reports");
-    console.log(user);
-    const objects = await reportService.getWeeklyMorningReport(user);
-    console.log(objects);
-    
-    let result = {
-        Aver_sleepduration:0.0,
-        Aver_sleepquality:0.0,
-        Aver_moodmorning:0.0
-    }
-
-    objects.forEach((object) => {
-        result.Aver_sleepquality += parseFloat(object.sleepquality);
-    });
-    result.Aver_sleepquality /= objects.length;
-    response.status = 200;
-};
 
 const addMorningReport = async({request, response, session}) => {
     const body = request.body();
@@ -169,5 +163,25 @@ const showMorningReport = ({render}) => {
 const showEveningReport = ({render}) => {
     render('evening.ejs');
 }
+
+const behaviorReporting = async({render, session}) => {
+    const user = await session.get('user');
+    const info = [];
+    let res = await reportService.getTodayMorningReport(user);
+    if (Object.keys(res).length === 0) {
+        info.push("Today's morning report has not finished");
+    } else
+    {
+        info.push("Today's morning report has finished");
+    }
+    res = await reportService.getTodayEveningReport(user);
+    if (Object.keys(res).length === 0) {
+        info.push("Today's evening report has not finished");
+    } else
+    {
+        info.push("Today's evening report has finished");
+    }
+    render('reporting.ejs', { info: info});
+}
   
-export { showLoginForm, showRegistrationForm, postRegistrationForm, postLoginForm, addMorningReport, showMorningReport, getWeeklyMorningReport,addEveningReport, showEveningReport};
+export { showLoginForm, showRegistrationForm, postRegistrationForm, postLoginForm, addMorningReport, showMorningReport, getWeeklyMorningReport,addEveningReport, showEveningReport, behaviorReporting};
