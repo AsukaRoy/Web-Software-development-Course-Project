@@ -12,7 +12,7 @@ Here is a possible list of steps that can be taken to get started with the appli
 - [ ] Create the landing page that shows the average mood from today and yesterday. Add a note on trend (i.e. going up / down).
 - [x] Add functionality for reporting (evening) behavior. When adding reports, use a fixed user id (e.g. 1).
 - [x] Adjust summarization of individual responses to include the reported evening behavior. Continue using a fixed user id (e.g. 1).
-- [ ] Add monthly summarization functionality and implement the possibility to select a week and / or a month.
+- [x] Add monthly summarization functionality and implement the possibility to select a week and / or a month.
 - [x] Implement registration and authentication functionality. Change the fixed user id to that of the user in the session.
 - [x] Add styles using a library.
 - [x] Clean up and document.
@@ -32,7 +32,7 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
     - [x] Test configurations separate from production configurations
     - [ ] Configurations loaded from environmental variables or e.g. dotenv -files
 
-- [ ] Users
+- [x] Users
 
   - [x] Email and password stored in the database for each user
 
@@ -50,7 +50,7 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
       - [x] Validation errors shown on page
       - [x] In case of validation errors, email field is populated (password is not)
 
-  - [ ] User-specific functionality is structured into logical parts (e.g. userController.js, userService.js)
+  - [x] User-specific functionality is structured into logical parts (e.g. userController.js, userService.js)
 
 - [ ] Authentication
 
@@ -64,7 +64,7 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
     - [x] If the user types in an invalid email or password, a message "Invalid email or password" is shown on the login page.
       - [x] Form fields are not populated
 
-  - [ ] Authentication functionality is structured into logical parts (e.g. authController.js or part of userController.js, ...).
+  - [x] Authentication functionality is structured into logical parts (e.g. authController.js or part of userController.js, ...).
 
   - [ ] Application has a logout button that allows the user to logout (logging out effectively means clearing the session)
 
@@ -84,14 +84,14 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
     - [x] Static files are placed under `/static`
   - [x] Middleware functionality is structured into logical parts (e.g. separate middlewares folder).
 
-- [ ] Reporting
+- [x] Reporting
 
   - [x] Reporting functionality is available under the path `/behavior/reporting`
   - [x] Reporting cannot be done if the user is not authenticated
   - [x] When accessing `/behavior/reporting`, user can choose whether morning or evening is being reported
     - [x] User reporting form depends on selection
     - [x] Page at `/behavior/reporting` shows whether morning and/or evening reporting for today has already been done
-  - [ ] Morning reporting form contains fields for date, sleep duration, sleep quality, and generic mood
+  - [x] Morning reporting form contains fields for date, sleep duration, sleep quality, and generic mood
     - [ ] Date is populated by default to today, but can be changed
       - [x] Form has a date field for selecting the date
     - [x] Sleep duration is reported in hours (with decimals)
@@ -109,53 +109,53 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
     - [x] Regularity and quality of eating and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.
       - [x] Form has a slider (e.g. range) or radio buttons for reporting the value
     - [x] Form contains labels that clarify the purpose of the input fields and the accepted values
-    - [ ] Form fields are validated
-      - [ ] Time spent on sports and exercise and time spent studying are reported in hours must be entered, must be a number (can be decimal), and cannot be negative
-      - [ ] Regularity and quality of eating and generic mood must be reported using numbers between 1 and 5 (integers).
-      - [ ] In case of validation errors, form fields are populated
+    - [x] Form fields are validated
+      - [x] Time spent on sports and exercise and time spent studying are reported in hours must be entered, must be a number (can be decimal), and cannot be negative
+      - [x] Regularity and quality of eating and generic mood must be reported using numbers between 1 and 5 (integers).
+      - [x] In case of validation errors, form fields are populated
   - [x] - [x] Reported values are stored into the database
 
     - [x] The database schema used for reporting works for the task
     - [x] Reporting is user-specific (all reported values are stored under the currently authenticated user)
     - [x] If the same report is already given (e.g. morning report for a specific day), then the older report is removed
       - [x] If the functionality for handling duplicate reports is something else, the functionality is described in documentation
-  - [ ] Reporting functionality structured into logical parts (separate views folder, separate controller for reporting, service(s), ...)
+  - [x] Reporting functionality structured into logical parts (separate views folder, separate controller for reporting, service(s), ...)
 
 - [ ] Summarization
 
   - [x] Summary functionality is available under the path `/behavior/summary`
-  - [ ] Main summary page contains the following statistics, by default shown for the last week and month
+  - [x] Main summary page contains the following statistics, by default shown for the last week and month
     - [x] Weekly average (by default from last week)
       - [x] Average sleep duration
       - [x] Average time spent on sports and exercise
       - [x] Average time spent studying
       - [x] Average sleep quality
       - [x] Average generic mood
-    - [ ] Monthly average (by default from last month)
-      - [ ] Average sleep duration
-      - [ ] Average time spent on sports and exercise
-      - [ ] Average time spent studying
-      - [ ] Average sleep quality
-      - [ ] Average generic mood
-  - [ ] Summary page has a selector for week and month. Check input type="week" and input type="month".
-    - [ ] When the week is changed, the weekly average will be shown for the given week.
-    - [ ] When the month is changed, the monthly average will be shown for the given month.
+    - [x] Monthly average (by default from last month)
+      - [x] Average sleep duration
+      - [x] Average time spent on sports and exercise
+      - [x] Average time spent studying
+      - [x] Average sleep quality
+      - [x] Average generic mood
+  - [x] Summary page has a selector for week and month. Check input type="week" and input type="month".
+    - [x] When the week is changed, the weekly average will be shown for the given week.
+    - [x] When the month is changed, the monthly average will be shown for the given month.
     - [ ] If no data for the given week exists, the weekly summary shows text suggesting that no data for the given week exists.
     - [ ] If no data for the given month exists, the monthly summary shows text suggesting that no data for the given month exists.
   - [x] Summary data / averages calculated within the database
     - [x] When doing weekly reporting, the weekly averages are calculated in the database
-    - [ ] When doing monthly reporting, the monthly averages are calculated in the database
-  - [ ] Summarization page contains statistics only for the current user.
+    - [x] When doing monthly reporting, the monthly averages are calculated in the database
+  - [x] Summarization page contains statistics only for the current user.
 
 - [x] Landing page (i.e. page at the root path of the application)
 
   - [x] Landing page briefly describes the purpose of the application
-  - [ ] Landing page shows a glimpse at the data and indicates a trend
-    - [ ] Landing page shows users' average mood for today and and yesterday
-    - [ ] If the average mood yesterday was better than today, tells that things are looking gloomy today
-    - [ ] If the average mood yesterday was was worse today, tells that things are looking bright today
-  - [ ] Landing page has links / buttons for login and register functionality
-  - [ ] Landing page has links / buttons for reporting functionality
+  - [x] Landing page shows a glimpse at the data and indicates a trend
+    - [x] Landing page shows users' average mood for today and and yesterday
+    - [x] If the average mood yesterday was better than today, tells that things are looking gloomy today
+    - [x] If the average mood yesterday was was worse today, tells that things are looking bright today
+  - [x] Landing page has links / buttons for login and register functionality
+  - [x] Landing page has links / buttons for reporting functionality
 
 - [ ] Testing
 
@@ -164,14 +164,14 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
   - [ ] The application has at least 15 meaningful automated tests. All tests detect if e.g. tested functionality is changed so that it no longer works as expected.
   - [ ] The application has at least 20 meaningful automated tests. All tests detect if e.g. tested functionality is changed so that it no longer works as expected.
 
-- [ ] Security
+- [x] Security
 
   - [x] Passwords are not stored in plaintext
   - [x] Field types in the database match the actual content (i.e., when storing numbers, use numeric types)
   - [x] Database queries done using parameterized queries (i.e., code cannot be injected to SQL queries)
-  - [ ] Data retrieved from the database are sanitized (i.e., if showing content from database, using `<%= ... %>` instead of `<%- ...%>` unless explicitly stated what for).
-  - [ ] Users cannot access data of other users.
-  - [ ] Users cannot post reports to other users' accounts.
+  - [x] Data retrieved from the database are sanitized (i.e., if showing content from database, using `<%= ... %>` instead of `<%- ...%>` unless explicitly stated what for).
+  - [x] Users cannot access data of other users.
+  - [x] Users cannot post reports to other users' accounts.
 
 - [ ] Database
 
@@ -206,10 +206,10 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
 
 - [ ] APIs
 
-  - [ ] The application provides an API endpoint for retrieving summary data generated over all users in a JSON format
-  - [ ] The API is accessible by all
+  - [x] The application provides an API endpoint for retrieving summary data generated over all users in a JSON format
+  - [x] The API is accessible by all
   - [ ] The API allows cross-origin requests
-  - [ ] Endpoint `/api/summary` provides a JSON document with sleep duration, time spent on sports and exercise, time spent studying, sleep quality, and generic mood averaged over the last 7 days
+  - [x] Endpoint `/api/summary` provides a JSON document with sleep duration, time spent on sports and exercise, time spent studying, sleep quality, and generic mood averaged over the last 7 days
   - [ ] Endpoint `/api/summary/:year/:month/:day` provides a JSON document with averages for sleep duration, time spent on sports and exercise, time spent studying, sleep quality, and generic mood for the given day
 
 - [ ] Deployment

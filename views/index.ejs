@@ -1,4 +1,31 @@
 <%- include('./partials/header.ejs') %>
 <h1>a web application for self-monitoring purposes. </h1>
 
+<h2>Users' average mood for today  <%= averToday %></h2>
+<h2>Users' average mood for yesterday  <%= averYesterday %></h2>
+<h2><%= info %></h2>
+
+
+
+<div>
+<a href="/behavior/reporting">Click here to report behavior</a>
+</div>
+
+<div>
+<a href="/auth/login">Click here to login</a>
+</div>
+
+<div>
+<a href="/auth/register">Click here to register</a>
+</div>
+
+
+<div>
+<a href="/behavior/summary">Click here to show summary</a>
+</div>
+
+<div>
+    <a href='/auth/logout'>Click here to logout</a>
+</div>
+
 <%- include('./partials/footer.ejs') %>

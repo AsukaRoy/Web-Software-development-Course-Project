@@ -4,22 +4,18 @@ import { Pool } from "../deps.js";
 
 const CONCURRENT_CONNECTIONS = 1;
 
-const getClient = () => {
-  return new Pool(config.database, CONCURRENT_CONNECTIONS);
-  
+const client = new Client(config.database);
+
+const executeQuery = async(query, ...args) => {
+    try {
+        await client.connect();
+        return await client.query(query, ...args);
+    } catch (e) {
+        console.log(e);
+    } finally {
+        await client.end();
+    }
 }
 
-const executeQuery = async(query, ...params) => {
-  const client = await getClient().connect();
-  try {
-      return await client.query(query, ...params);
-  } catch (e) {
-      console.log(e);  
-  } finally {
-      client.release();
-  }
-  
-  return null;
-};
 
 export { executeQuery };

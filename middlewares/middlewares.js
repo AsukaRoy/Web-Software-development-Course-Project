@@ -33,8 +33,9 @@ const limitAccessMiddleware = async(context, next) => {
       await next();
     } else if(context.request.url.pathname === "/"){
       await next();
-    }
-    else{
+    } else if(context.request.url.pathname.startsWith("/api")){
+      await next();
+    } else{
       if (await context.session.get('authenticated')) {
         await next();
       } else {

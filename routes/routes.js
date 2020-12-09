@@ -1,26 +1,33 @@
 import { Router } from "../deps.js";
-import { hello } from "./controllers/helloController.js";
+
 import * as api from "./apis/apis.js";
+import * as userController from "./controllers/userController.js";
+import * as reportController from "./controllers/reportController.js";
+import * as summaryController from "./controllers/summaryController.js";
 
 const router = new Router();
 
-router.get('/', hello);
-router.get('/auth/register', api.showRegistrationForm);
-router.post('/auth/register', api.postRegistrationForm);
-router.get('/auth/login', api.showLoginForm);
-router.post('/auth/login', api.postLoginForm);
+router.get('/', userController.showRoot);
 
-router.get("/behavior/reporting", api.behaviorReporting);
+router.get('/auth/register', userController.showRegistrationForm);
+router.post('/auth/register', userController.postRegistrationForm);
 
-router.get('/morningReport', api.showMorningReport);
-router.post('/morningReport', api.addMorningReport);
+router.get('/auth/login', userController.showLoginForm);
+router.post('/auth/login', userController.postLoginForm);
+router.get('/auth/logout', userController.logout);
 
-router.get('/eveningReport', api.showEveningReport);
-router.post('/eveningReport', api.addEveningReport);
+router.get("/behavior/reporting", reportController.behaviorReporting);
+router.get('/morningReport', reportController.showMorningReport);
+router.post('/morningReport', reportController.addMorningReport);
+router.get('/eveningReport', reportController.showEveningReport);
+router.post('/eveningReport', reportController.addEveningReport);
 
-router.get('/behavior/summary', api.getSummarization);
-router.post('/behavior/summary', api.postSummarization);
+router.get('/behavior/summary', summaryController.getSummarization);
+router.post('/behavior/summary', summaryController.postSummarization);
 
-router.get('/weeklyMorningReport', api.getSummarization);
+
+router.get('/api/summary', api.getAverageWeeklyReport);
+router.get('/api/summary/:year/:month/:day', api.getAverageDailyReport);
+
 
 export { router };
