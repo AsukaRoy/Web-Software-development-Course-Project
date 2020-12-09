@@ -2,6 +2,7 @@ import { executeQuery } from "../database/database.js";
 
 
 const getTodayMorningReport = async(user) => {
+    console.log(user);
     const res = await executeQuery("SELECT * FROM morningReports WHERE user_id = $1 AND date = CURRENT_DATE" , user.id);
     if (res.rowCount === 0) {
         return {};
@@ -17,10 +18,20 @@ const getTodayEveningReport = async(user) => {
     return res.rowsOfObjects();
 }
 
-const getWeeklyMorningReport = async(user, yyyy ,mm, dd) => {
+const getWeeklyMorningReport = async(user, yyyy ,mm, dd, flag) => {
+    if(flag === "week")
+    {
+        console.log(flag);
+        var res = await executeQuery("SELECT AVG(sleepQuality), AVG(sleepDuration), AVG(moodMorning) FROM morningReports WHERE user_id = $1 AND date > make_date($2, $3, $4) - 7 AND date <=  make_date($2, $3, $4)" , user.id, Number(yyyy),Number(mm),Number(dd));
 
-    const res = await executeQuery("SELECT AVG(sleepQuality), AVG(sleepDuration), AVG(moodMorning) FROM morningReports WHERE user_id = $1 AND date > make_date($2, $3, $4) - 7 AND date <=  make_date($2, $3, $4)" , user.id, Number(yyyy),Number(mm),Number(dd));
+    }
+    else if(flag === "month")
+    {
+        
+        var res = await executeQuery("SELECT AVG(sleepQuality), AVG(sleepDuration), AVG(moodMorning) FROM morningReports WHERE user_id = $1 AND date > make_date($2, $3, $4) - 30 AND date <=  make_date($2, $3, $4)" , user.id, Number(yyyy),Number(mm),Number(dd));
 
+    }
+    
 
     if (res.rows[0][0] === null) {
         console.log("null");
@@ -30,10 +41,17 @@ const getWeeklyMorningReport = async(user, yyyy ,mm, dd) => {
 }
 
 
-const getWeeklyEveningReport = async(user, yyyy ,mm, dd) => {
+const getWeeklyEveningReport = async(user, yyyy ,mm, dd, flag) => {
 
-    const res = await executeQuery("SELECT AVG(sports), AVG(study), AVG(eating) , AVG(moodEvening) FROM eveningReports WHERE user_id = $1 AND date > make_date($2, $3, $4) - 7 AND date <=  make_date($2, $3, $4)" , user.id, Number(yyyy),Number(mm),Number(dd));
+    if(flag === "week")
+    {
+        var res = await executeQuery("SELECT AVG(sports), AVG(study), AVG(eating) , AVG(moodEvening) FROM eveningReports WHERE user_id = $1 AND date > make_date($2, $3, $4) - 7 AND date <=  make_date($2, $3, $4)" , user.id, Number(yyyy),Number(mm),Number(dd));
 
+    }
+    else if(flag === "month")
+    {
+        var res = await executeQuery("SELECT AVG(sports), AVG(study), AVG(eating) , AVG(moodEvening) FROM eveningReports WHERE user_id = $1 AND date > make_date($2, $3, $4) - 30 AND date <=  make_date($2, $3, $4)" , user.id, Number(yyyy),Number(mm),Number(dd));
+    }
 
     if (res.rows[0][0] === null) {
         console.log("null");

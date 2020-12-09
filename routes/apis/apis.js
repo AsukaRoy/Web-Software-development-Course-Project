@@ -1,6 +1,9 @@
 import * as reportService from "../../services/reportServices.js";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 
+let averData;
+let objectsMorningM;
+
 const getWeeklyMorningReport = async({request, response,session}) => {
     //const date = await params.get('date');
     const user = await session.get('user');
@@ -25,12 +28,31 @@ const addEveningReport = async({request, response, session}) => {
     const body = request.body();
     const params = await body.value;
     
-    const sports = params.get('sports');
-    const study = await params.get('study');
-    const eating = params.get('eating');
-    const moodEvening = await params.get('moodEvening');
-    const date = await params.get('date');
-    const user = await session.get('user');
+    const errors = [];
+
+    let sports = await params.has('sports') ? params.get('sports'): '';
+    let study = await params.has('study') ?  params.get('study'): '';
+    let eating = await params.has('eating') ? params.get('eating'): '';
+    let moodEvening = await params.has('moodEvening') ?  params.get('moodEvening'): '';
+    let date = await params.get('date');
+    let user = await session.get('user');
+
+    if (!params.has('sports') || Number(params.get('sports')) < 0 ) {
+        errors.push('Invalid sports Duration');
+    } 
+    if (!params.has('study') || Number(params.get('study')) < 0 ) {
+        errors.push('Invalid study Duration');
+    } 
+
+    if (!params.has('eating') || Number(params.get('eating')) < 1
+    || Number(params.get('eating')) > 5 )  {
+        errors.push('Invalid eating Quality');
+    }
+
+    if (!params.has('moodEvening') || Number(params.get('moodEvening')) < 1
+    || Number(params.get('moodEvening')) > 5 )  {
+        errors.push('Invalid moodEvening mood value');
+    }
 
     await reportService.addEveningReport(sports,study,eating,moodEvening,date,user);
 
@@ -56,12 +78,12 @@ const addMorningReport = async({request, response, session, render}) => {
     } 
     
     if (!params.has('sleepQuality') || Number(params.get('sleepQuality')) < 1
-    || Number(params.get('sleepQuality')) > 10 )  {
+    || Number(params.get('sleepQuality')) > 5 )  {
         errors.push('Invalid Sleep Quality');
     }
 
     if (!params.has('moodMorning') || Number(params.get('moodMorning')) < 1
-    || Number(params.get('moodMorning')) > 10 )  {
+    || Number(params.get('moodMorning')) > 5 )  {
         errors.push('Invalid morning mood value');
     }
 
@@ -203,6 +225,33 @@ const behaviorReporting = async({render, session}) => {
     render('reporting.ejs', { info: info});
 }
   
+
+const getAverage = async (user, yyyy, mm, dd, flag) => {
+    const objectsMorning = await reportService.getWeeklyMorningReport(user,yyyy ,mm,dd, flag);
+    
+    let Aver_sleepduration = objectsMorning[0];
+    let Aver_sleepquality = objectsMorning[1];
+    let Aver_moodmorning = objectsMorning[2];
+    
+    const objectsEvening = await reportService.getWeeklyEveningReport(user,yyyy ,mm,dd, flag);
+
+    let Aver_sports = objectsEvening[0];
+    let Aver_study = objectsEvening[1];
+    let Aver_eating = objectsEvening[2];
+    let Aver_evening = objectsEvening[2];
+    let Aver_mood = (Number(Aver_evening) + Number(Aver_moodmorning)) / 2;
+
+    return {Aver_sleepduration: objectsMorning[0],            
+        Aver_sleepquality:objectsMorning[1],
+        Aver_moodmorning:objectsMorning[2], 
+        Aver_sports : objectsEvening[0],
+        Aver_study : objectsEvening[1],
+        Aver_eating : objectsEvening[2],
+        Aver_evening : objectsEvening[3],
+        Aver_mood: Aver_mood
+    }
+}
+
 const getSummarization = async({render, session}) => {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -213,26 +262,21 @@ const getSummarization = async({render, session}) => {
 
     const user = await session.get('user');
 
-    const objectsMorning = await reportService.getWeeklyMorningReport(user,yyyy ,mm,dd);
-    console.log(objectsMorning);
- 
-    let Aver_sleepduration = objectsMorning[0];
-    let Aver_sleepquality = objectsMorning[1];
-    let Aver_moodmorning = objectsMorning[2];
-    
+    averData = await getAverage(user,yyyy ,mm,dd, "week");
+    objectsMorningM = await getAverage(user,yyyy ,mm,dd, "month");
 
-    const objectsEvening = await reportService.getWeeklyEveningReport(user,yyyy ,mm,dd);
-    console.log(objectsEvening);
-
-    let Aver_sports = objectsEvening[0];
-    let Aver_study = objectsEvening[1];
-    let Aver_eating = objectsEvening[2];
-    let Aver_evening = objectsEvening[2];
-
-    let Aver_mood = (Number(Aver_evening) + Number(Aver_moodmorning)) / 2;
-    if(objectsMorning.length != 0 && objectsMorning.length != 0)
+    if(averData.length != 0 && objectsMorningM.length != 0)
     {
-        render('summary.ejs', { weekNumber: 1, sleepDuration: Aver_sleepduration, sports:Aver_sports, study:Aver_study, sleepQuality: Aver_sleepquality,mood:Aver_mood});
+        render('summary.ejs', {  
+            sleepDuration: averData.Aver_sleepduration, 
+            sports:averData.Aver_sports, 
+            study:averData.Aver_study, 
+            sleepQuality: averData.Aver_sleepquality,
+            mood:averData.Aver_mood, 
+            sleepDurationM: objectsMorningM.Aver_sleepduration, sportsM:objectsMorningM.Aver_sports, 
+            studyM:objectsMorningM.Aver_study, 
+            sleepQualityM: objectsMorningM.Aver_sleepquality, moodM:objectsMorningM.Aver_mood
+        });
     }
     else
     {
@@ -240,7 +284,89 @@ const getSummarization = async({render, session}) => {
     }
 }
   
-const postSummarization = async({render, session}) => {
+function getDateOfWeek(w, y) {
+    var d = (1 + (w - 1) * 7); // 1st of January + 7 days for each week
+
+    return new Date(y, 0, d);
+}
+
+const postSummarization = async({render,request, session}) => {
+    const body = request.body();
+    const params = await body.value;
+    
+    const errors = [];
+    const user = await session.get('user');
+    if(params.has('hiddenWeek'))
+    {
+        console.log("weekChange");
+        let weekNumber = params.has('weekNumber') ? params.get('weekNumber'): '';
+        let week = Number(weekNumber.slice(6));
+        let year = Number(weekNumber.slice(0,4));
+
+        let date = getDateOfWeek(week,year);
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = date.getFullYear();
+
+
+        averData = await getAverage(user,yyyy ,mm,dd, "week");
+        console.log(averData.length);
+  
+        if(averData.length != 0)
+        {
+            render('summary.ejs', { 
+                sleepDuration: averData.Aver_sleepduration, 
+                sports:averData.Aver_sports, 
+                study:averData.Aver_study, 
+                sleepQuality: averData.Aver_sleepquality,
+                mood:averData.Aver_mood, 
+                sleepDurationM: objectsMorningM.Aver_sleepduration, sportsM:objectsMorningM.Aver_sports, 
+                studyM:objectsMorningM.Aver_study, 
+                sleepQualityM: objectsMorningM.Aver_sleepquality, moodM:objectsMorningM.Aver_mood
+            });
+            
+        }
+        else if ((params.has('hiddenMonth')))
+        {
+            console.log("don't exist evening data");
+        }
+    }
+    else
+    {
+        console.log("monthChange");
+
+        let monthNumber = params.has('monthNumber') ? params.get('monthNumber'): '';
+        console.log(monthNumber);
+        let mm = Number(monthNumber.slice(5));
+        let yyyy = Number(monthNumber.slice(0,4));
+        let dd = new Date(yyyy, mm+1, 0);
+        console.log(dd);
+        dd = String(dd.getDate()).padStart(2, '0');
+        console.log(dd);
+
+        objectsMorningM = await getAverage(user,yyyy , mm, dd, "month");
+        console.log(objectsMorningM);
+  
+        if(averData.length != 0)
+        {
+            render('summary.ejs', { 
+                sleepDuration: averData.Aver_sleepduration, 
+                sports:averData.Aver_sports, 
+                study:averData.Aver_study, 
+                sleepQuality: averData.Aver_sleepquality,
+                mood:averData.Aver_mood, 
+                sleepDurationM: objectsMorningM.Aver_sleepduration, sportsM:objectsMorningM.Aver_sports, 
+                studyM:objectsMorningM.Aver_study, 
+                sleepQualityM: objectsMorningM.Aver_sleepquality, moodM:objectsMorningM.Aver_mood
+            });
+            
+        }
+        else if ((params.has('hiddenMonth')))
+        {
+            console.log("don't exist evening data");
+        }
+    }
+    
 
 }
 

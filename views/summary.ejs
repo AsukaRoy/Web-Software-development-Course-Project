@@ -4,11 +4,10 @@
 </h1>
 
 <form method="POST" action="/behavior/summary">
-    <input type="text" name="nameWeek" value="week"/>
-
     <label for="weekNumber">Week Number: </label>
-    <input type="week" name="weekNumber" value="<%= weekNumber %>"/>
+    <input type="week" name="weekNumber"/>
     <input type="submit" value="submit!" />
+    <input type="hidden" name="hiddenWeek" />
 </form>
 
 
@@ -22,6 +21,21 @@
     </ul>
 
 
+<form method="POST" action="/behavior/summary">
+    <label for="monthNumber">Week Number: </label>
+    <input type="month" name="monthNumber"/>
+    <input type="submit" value="submit!" />
+    <input type="hidden" name="hiddenMonth" />
+</form>
 
+<h2>Monthly average (by default from last month)</h2>
+
+<ul>
+    <li>Average sleep duration: <%= sleepDurationM %></li>
+    <li>Average time spent on sports and exercise: <%= sportsM %></li>
+    <li>Average time spent studying: <%= studyM %></li>
+    <li>Average sleep quality: <%= sleepQualityM %></li>
+    <li>Average generic mood: <%= moodM %></li>
+</ul>
 
 <%- include('./partials/footer.ejs') %>
