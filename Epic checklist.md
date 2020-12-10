@@ -9,14 +9,14 @@ Here is a possible list of steps that can be taken to get started with the appli
 - [x] Add some middlewares to the project, at least an error reporting middleware.
 - [x] Add functionality for reporting (morning) behavior. When adding reports, use a fixed user id (e.g. 1).
 - [x] Add functionality for summarization of individual responses on a weekly level, now focusing on a single (last?) week. When building reports, use a fixed user id (e.g. 1).
-- [ ] Create the landing page that shows the average mood from today and yesterday. Add a note on trend (i.e. going up / down).
+- [x] Create the landing page that shows the average mood from today and yesterday. Add a note on trend (i.e. going up / down).
 - [x] Add functionality for reporting (evening) behavior. When adding reports, use a fixed user id (e.g. 1).
 - [x] Adjust summarization of individual responses to include the reported evening behavior. Continue using a fixed user id (e.g. 1).
 - [x] Add monthly summarization functionality and implement the possibility to select a week and / or a month.
 - [x] Implement registration and authentication functionality. Change the fixed user id to that of the user in the session.
 - [x] Add styles using a library.
 - [x] Clean up and document.
-- [ ] Implement APIs
+- [x] Implement APIs
 - [x] Continue working on missing content.
 
 **Epic checklist**
@@ -204,13 +204,13 @@ A more detailed checklist is shown below. We suggest storing intermediate versio
 
   - [ ] User sees if the user has logged in (e.g. with a message 'Logged in as [my@email.net](mailto:my@email.net)' shown at the top of the page)
 
-- [ ] APIs
+- [x] APIs
 
   - [x] The application provides an API endpoint for retrieving summary data generated over all users in a JSON format
   - [x] The API is accessible by all
-  - [ ] The API allows cross-origin requests
+  - [x] The API allows cross-origin requests
   - [x] Endpoint `/api/summary` provides a JSON document with sleep duration, time spent on sports and exercise, time spent studying, sleep quality, and generic mood averaged over the last 7 days
-  - [ ] Endpoint `/api/summary/:year/:month/:day` provides a JSON document with averages for sleep duration, time spent on sports and exercise, time spent studying, sleep quality, and generic mood for the given day
+  - [x] Endpoint `/api/summary/:year/:month/:day` provides a JSON document with averages for sleep duration, time spent on sports and exercise, time spent studying, sleep quality, and generic mood for the given day
 
 - [ ] Deployment
 
