@@ -1,6 +1,8 @@
+import { dotenv } from "../deps.js";
 let config = {};
 
-if (Deno.env.get("TEST_ENVIRONMENT")) {
+if (dotenv()["TEST_ENVIRONMENT"]) {
+  console.log("test test");
   config.database = {
     hostname: "hattie.db.elephantsql.com",
     database: "vidojnmf",

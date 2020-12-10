@@ -40,13 +40,6 @@ Deno.test("showRegistrationForm", async () => {
   checkEjsFilePath(userController.showRegistrationForm, "register.ejs");
 });
 
-Deno.test("showRoot", async () => {
-  const testClient = await superoak(app);
-  await testClient.get("/").expect(200);
-
-  checkEjsFilePath(userController.showRoot, "index.ejs");
-});
-
 Deno.test("postRegistrationForm success", async () => {
   const testClient = await superoak(app);
 
