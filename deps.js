@@ -11,6 +11,9 @@ export {
 export { Client } from "https://deno.land/x/postgres@v0.4.5/mod.ts";
 export { Session } from "https://deno.land/x/session@v1.0.0/mod.ts";
 export { Pool } from "https://deno.land/x/postgres@v0.4.5/mod.ts";
-export { assertEquals } from "https://deno.land/std@0.78.0/testing/asserts.ts";
+export {
+  assertEquals,
+  assertMatch,
+} from "https://deno.land/std@0.78.0/testing/asserts.ts";
 export { oakCors } from "https://deno.land/x/cors@v1.2.1/mod.ts";
 export { superoak } from "https://deno.land/x/superoak@2.3.1/mod.ts";
