@@ -59,5 +59,5 @@
 ## test
 
 ```bash
-deno test --allow-net --allow-env --allow-read
+deno test --allow-net --allow-env --allow-read --unstable
 ```
