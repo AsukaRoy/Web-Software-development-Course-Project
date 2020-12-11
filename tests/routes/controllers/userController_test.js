@@ -79,3 +79,23 @@ Deno.test("postLoginForm success", async () => {
   //   response
   // );
 });
+
+Deno.test("logout", async () => {
+  let checkValue = {};
+  const mockSessionSet = (key, value) => {
+    checkValue[key] = value;
+  };
+  const mockContext = {
+    response: {
+      body: "",
+    },
+    session: {
+      set: mockSessionSet,
+    },
+  };
+
+  await userController.logout(mockContext);
+
+  assertEquals(mockContext.response.body, "logout successful!");
+  assertEquals(checkValue["authenticated"], false);
+});
